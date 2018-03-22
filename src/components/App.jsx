@@ -7,8 +7,8 @@ class App extends React.Component {
     }
   }
   
-  handleClick() {
-    console.log('test', this);
+  handleClick(event) {
+    this.setState({currentVideo: event})
   }
   
   render() {
@@ -16,7 +16,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em onClick={this.handleClick.bind(this)}>search</em><Search /></h5></div>
+            <div><h5><em>search</em><Search /></h5></div>
           </div>
         </nav>
         <div className="row">
@@ -24,7 +24,7 @@ class App extends React.Component {
             <div><h5><em><VideoPlayer video={this.state.currentVideo}/></em></h5></div>
           </div>
           <div className="col-md-5">
-            <div><h5><em><VideoList videos={this.state.videoCollection} handleClick={() => this.handleClick}/></em></h5></div>
+            <div><h5><em><VideoList handleClick={this.handleClick.bind(this)} videos={this.state.videoCollection} /></em></h5></div>
           </div>
         </div>
       </div>
