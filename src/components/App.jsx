@@ -1,9 +1,10 @@
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.searchValue;
     this.state = {
       currentVideo: exampleVideoData[0],
-      videoCollection: exampleVideoData
+      videoCollection: exampleVideoData,
     }
   }
   
@@ -11,12 +12,20 @@ class App extends React.Component {
     this.setState({currentVideo: event})
   }
   
+  handleSubmit(value) {
+    var callback = function(data) {
+      this.setState({videoCollection: data})
+    }
+    window.searchYouTube(value, callback);
+  }
+  
+  
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em><Search /></h5></div>
+            <div><h5><em>search</em><Search handleSubmit={this.handleSubmit.bind(this)}/></h5></div>
           </div>
         </nav>
         <div className="row">
