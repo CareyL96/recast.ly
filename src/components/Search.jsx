@@ -4,20 +4,28 @@ class Search extends React.Component {
     this.state = {
       searchValue: ''
     }
+    
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
   
   handleChange(event) {
     this.setState({searchValue: event.target.value})
   }
   
+  handleSearch() {
+    this.props.handleSubmit(this.state.searchValue);
+    this.setState({searchValue: ''});
+  }
+  
   render() {
     return (
       <div className="search-bar form-inline">
-        <input className="form-control" type="text" onChange={this.handleChange.bind(this)} />
-        <button className="btn hidden-sm-down" onClick={() => this.props.handleSubmit({key: window.YOUTUBE_API_KEY, query: this.state.searchValue, max: 5})}>
+        <input className="form-control" type="text" value={this.state.searchValue} onChange={this.handleChange} />
+        <button className="btn hidden-sm-down" onClick={this.handleSearch}>
           <span className="glyphicon glyphicon-search"></span>
         </button>
-      </div> 
+      </div>
     );
   } 
 }

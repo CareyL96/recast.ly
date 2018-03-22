@@ -6,6 +6,8 @@ class App extends React.Component {
       currentVideo: exampleVideoData[0],
       videoCollection: exampleVideoData,
     }
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
   
   handleClick(event) {
@@ -13,19 +15,31 @@ class App extends React.Component {
   }
   
   handleSubmit(value) {
+    console.log(value);
+    var options = {
+      key: window.YOUTUBE_API_KEY, 
+      query: value, 
+      max: 5
+    };
+    
     var callback = function(data) {
-      this.setState({videoCollection: data})
+      this.setState({
+        currentVideo: data[0],
+        videoCollection: data
+      });
     }
-    window.searchYouTube(value, callback);
+    
+    window.searchYouTube(options, callback.bind(this));
   }
   
   
   render() {
+    
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em><Search handleSubmit={this.handleSubmit.bind(this)}/></h5></div>
+            <div><h5><em>search</em><Search handleSubmit={this.handleSubmit}/></h5></div>
           </div>
         </nav>
         <div className="row">
@@ -33,7 +47,7 @@ class App extends React.Component {
             <div><h5><em><VideoPlayer video={this.state.currentVideo}/></em></h5></div>
           </div>
           <div className="col-md-5">
-            <div><h5><em><VideoList handleClick={this.handleClick.bind(this)} videos={this.state.videoCollection} /></em></h5></div>
+            <div><h5><em><VideoList handleClick={this.handleClick} videos={this.state.videoCollection} /></em></h5></div>
           </div>
         </div>
       </div>
