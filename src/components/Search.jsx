@@ -3,27 +3,22 @@ class Search extends React.Component {
     super(props);
     this.state = {
       searchValue: ''
-    }
+    };
     
     this.handleChange = this.handleChange.bind(this);
   }
   
   handleChange(event) {
     
-    if(event.type === 'click') {
+    if (event.type === 'click') {
       this.props.handleSubmit(this.state.searchValue);
       this.setState({searchValue: ''});
     } else { 
-      this.setState({searchValue: event.target.value})
-     this.props.handleSubmit(this.state.searchValue);
+      this.setState({searchValue: event.target.value}, function() {
+        this.props.handleSubmit(this.state.searchValue);
+      });
     }
   }
-  
-  // handleSearch() {
-  //   console.log()
-  //   this.props.handleSubmit(this.state.searchValue);
-  //   // this.setState({searchValue: ''});
-  // }
   
   render() {
     return (

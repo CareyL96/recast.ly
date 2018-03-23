@@ -3,20 +3,19 @@ class App extends React.Component {
     super(props);
     this.searchValue;
     this.state = {
-      currentVideo: exampleVideoData[0],
-      videoCollection: exampleVideoData,
-    }
-    this.handleSubmit = this.handleSubmit.bind(this);
+      currentVideo: null,
+      videoCollection: [],
+    };
+    this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 500);
     this.handleClick = this.handleClick.bind(this);
-    this.setVideos = this.setVideos.bind(this)
-    window.searchYouTube = _.debounce(window.searchYouTube, 500)
+    this.setVideos = this.setVideos.bind(this);
+    this.searchYouTube = _.debounce(window.searchYouTube, 500);
     
     this.options = {
       key: window.YOUTUBE_API_KEY, 
       query: '', 
       max: 5
     };
-    this.handleSubmit('dogs');
   }
   
   setVideos(data) {
@@ -27,12 +26,16 @@ class App extends React.Component {
   }
   
   handleClick(event) {
-    this.setState({currentVideo: event})
+    this.setState({currentVideo: event});
   }
   
   handleSubmit(value) {
     this.options.query = value;
-    window.searchYouTube(this.options, this.setVideos);
+    this.searchYouTube(this.options, this.setVideos);
+  }
+  
+  componentDidMount() {
+    this.searchYouTube(this.options, this.setVideos);
   }
   
   render() {
