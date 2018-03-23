@@ -6,23 +6,30 @@ class Search extends React.Component {
     }
     
     this.handleChange = this.handleChange.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
   }
   
   handleChange(event) {
-    this.setState({searchValue: event.target.value})
+    
+    if(event.type === 'click') {
+      this.props.handleSubmit(this.state.searchValue);
+      this.setState({searchValue: ''});
+    } else { 
+      this.setState({searchValue: event.target.value})
+     this.props.handleSubmit(this.state.searchValue);
+    }
   }
   
-  handleSearch() {
-    this.props.handleSubmit(this.state.searchValue);
-    this.setState({searchValue: ''});
-  }
+  // handleSearch() {
+  //   console.log()
+  //   this.props.handleSubmit(this.state.searchValue);
+  //   // this.setState({searchValue: ''});
+  // }
   
   render() {
     return (
       <div className="search-bar form-inline">
         <input className="form-control" type="text" value={this.state.searchValue} onChange={this.handleChange} />
-        <button className="btn hidden-sm-down" onClick={this.handleSearch}>
+        <button className="btn hidden-sm-down" onClick={this.handleChange}>
           <span className="glyphicon glyphicon-search"></span>
         </button>
       </div>
@@ -34,6 +41,3 @@ class Search extends React.Component {
 // `var` declarations will only exist globally where explicitly defined
 window.Search = Search;
 
-// onClick={() => handleSubmit(value)}
-// ref={el => this.setState({searchValue: el.value})}
-// onClick={() => }

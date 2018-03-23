@@ -8,6 +8,22 @@ class App extends React.Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.setVideos = this.setVideos.bind(this)
+    window.searchYouTube = _.debounce(window.searchYouTube, 500)
+    
+    this.options = {
+      key: window.YOUTUBE_API_KEY, 
+      query: '', 
+      max: 5
+    };
+    this.handleSubmit('dogs');
+  }
+  
+  setVideos(data) {
+    this.setState({
+      currentVideo: data[0],
+      videoCollection: data
+    });
   }
   
   handleClick(event) {
@@ -15,23 +31,9 @@ class App extends React.Component {
   }
   
   handleSubmit(value) {
-    console.log(value);
-    var options = {
-      key: window.YOUTUBE_API_KEY, 
-      query: value, 
-      max: 5
-    };
-    
-    var callback = function(data) {
-      this.setState({
-        currentVideo: data[0],
-        videoCollection: data
-      });
-    }
-    
-    window.searchYouTube(options, callback.bind(this));
+    this.options.query = value;
+    window.searchYouTube(this.options, this.setVideos);
   }
-  
   
   render() {
     
